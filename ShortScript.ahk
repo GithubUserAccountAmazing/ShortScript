@@ -2,10 +2,10 @@
 ; A tool to optimize code for AI prompting.
 ; Author: github.com/originates
 ; Date: 4/28/2023
-; Usage:	
-;	Select a JavaScript code with your mouse or keyboard then
-;	Press Win+C to copy a shortened version to your clipboard.
-;	Paste the shortened code wherever you want.
+; Usage: 
+;	1. Select a JavaScript code that you want to shorten.
+;	2. Press Win+C to copy a markdown codeblock with the shortened code.
+;	3. Paste the codeblock wherever you want.
 
 #C::
 
@@ -37,6 +37,12 @@ Loop, Parse, clipboardText, `n, `r
 	newText .= Trim(lineParts1) "`n"
 }
 
+; Add "```" and a newline at the beginning of the string
+newText := "``````" . "`n" . newText
+
+; Add a "```" at the ends of the string
+newText := newText . "``````"
+
 ; Replace the clipboard with the new variable
 Clipboard := newText
 
@@ -44,7 +50,6 @@ Clipboard := newText
 newText =
 
 return
-
 
 
 
