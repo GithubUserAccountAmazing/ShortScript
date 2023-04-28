@@ -4,8 +4,8 @@
 
 ShortScript is a simple and handy tool that helps you copy and paste JavaScript code for using it within AI prompts.
 
-- It minifies your code by removing comments, blank lines, and spaces. This reduces the size of your code and makes it easier to copy and paste into AI applications like ChatGPT or Bing AI.
-- It wraps your code with codeblock syntax (triple backticks) to help make your prompt clearer and easier for the AI to understand.
+- It minifies your selected code by removing comments, blank lines, and spaces. This reduces the size of your code and makes it easier to copy and paste into AI applications like ChatGPT or Bing AI.
+- It wraps your selected code with codeblock syntax (triple backticks) to help make your prompt clearer and easier for the AI to understand.
 
 For example, this is how ShortScript transforms a basic JavaScript code that uses comments, blank lines, and good formatting:
 
