@@ -2,7 +2,7 @@
 
 #### <p align="center">A tool to optimize code snippets for AI prompting.</p><br>
 
-ShortScript is a simple and handy tool that helps you copy and paste JavaScript code for using it within AI prompts.
+ShortScript is a simple and handy tool that helps you copy and paste code for using it within AI prompts.
 
 - It minifies your selected code by removing comments, blank lines, and spaces. This reduces the size of your code and makes it easier to copy and paste into AI applications like ChatGPT or Bing AI.
 - It wraps your selected code with codeblock syntax (triple backticks) to help make your prompt clearer and easier for the AI to understand.
