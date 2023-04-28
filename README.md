@@ -1,6 +1,6 @@
 <h1 align="center">ShortScript:sparkles:</h1>
 
-#### <p align="center">A tool to optimize code for AI prompting.</p><br>
+#### <p align="center">A tool to optimize code snippets for AI prompting.</p><br>
 
 ShortScript is a simple and handy tool that helps you copy and paste JavaScript code for using it within AI prompts.
 
