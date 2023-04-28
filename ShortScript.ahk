@@ -2,9 +2,10 @@
 ; A tool to optimize code for AI prompting.
 ; Author: github.com/originates
 ; Date: 4/28/2023
-; Usage:	Select a JavaScript code with your mouse or keyboard then
-;					Press Win+C to copy a shortened version to your clipboard.
-;					Paste the shortened code wherever you want.
+; Usage:	
+;	Select a JavaScript code with your mouse or keyboard then
+;	Press Win+C to copy a shortened version to your clipboard.
+;	Paste the shortened code wherever you want.
 
 #C::
 
