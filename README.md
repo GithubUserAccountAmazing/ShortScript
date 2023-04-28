@@ -13,7 +13,7 @@ For example, this is how ShortScript transforms a basic JavaScript code that use
 <img src="https://user-images.githubusercontent.com/105183376/235229706-9de3705f-ba5a-4d35-8626-2312593540dc.png" />
 </p>
 
-## Why use this
+## Why Use This?
 
 AI apps need prompts to generate output. Prompts have a character limit based on the app and the language model. For example, ChatGPT can process up to 500 words or 4,000 characters. If you go over the limit, the app may stop working or show an error. ShortScript can help you optimize your code for AI prompting by making it shorter and clearer. This can prevent character limit issues and improve AI output.
 
