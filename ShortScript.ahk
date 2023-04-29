@@ -1,6 +1,6 @@
 ; ShortScript
 ; A tool to optimize code for AI prompting.
-; Author: github.com/originates
+; Author: github.com/richkmls
 ; Date: 4/28/2023
 ; Usage: 
 ;	1. Select a JavaScript code that you want to shorten.
