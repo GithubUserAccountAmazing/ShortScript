@@ -27,8 +27,7 @@ AI apps need prompts to generate output. Prompts have a character limit based on
 
 ## Features and Limitations
 
-- The script currently works best for JavaScript code. Other languages may have different comment symbols that the script does not remove.
-- A future enhancement could be to automatically detect the code language and apply the appropriate rules.
+- The script currently works best for JavaScript, Python, Bash (languages that use "//" and "#" as comment symbols).
 
 ## Disclaimer
 
