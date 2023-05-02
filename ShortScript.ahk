@@ -19,26 +19,26 @@ clipboardText := Clipboard
 ; Iterate over each line of the variable
 Loop, Parse, clipboardText, `n, `r
 {
-	; Remove any leading or trailing whitespace from the line
-	currentLine := Trim(A_LoopField) 
+	; Remove any leading or trailing whitespace and tabs from the line
+	currentLine := Trim(A_LoopField, " `t")
 
 	; If the line is empty skip it.
 	If (currentLine = "")
         	continue
 
 	; If the line is a comment skip it
-    	If (SubStr(currentLine, 1, 2) = "//" or SubStr(currentLine, 1, 1) = "#")
+    	If (SubStr(currentLine, 1, 1) = "#" or SubStr(currentLine, 1, 1) = "//")
         	continue
 
-	; Split the line by //
-    	StringSplit, lineParts, currentLine, //
+	; Split the line by // or #
+    	StringSplit, lineParts, currentLine, //|#
 
 	; Append the first part of the split to a new variable and trim any white space
 	newText .= Trim(lineParts1) "`n"
 }
 
 ; Add "```" and a newline at the beginning of the string
-newText := "``````" . "`n" . newText
+newText := "``````" . newText
 
 ; Add a "```" at the ends of the string
 newText := newText . "``````"
