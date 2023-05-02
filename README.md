@@ -22,6 +22,7 @@ AI apps need prompts to generate output. Prompts have a character limit based on
 - Install AutoHotkey on your system.
 - Run the script by double-clicking or right-clicking on the .ahk file.
 - Select a JavaScript code with your mouse or keyboard and press Win+C to copy a shortened and wrapped version to your clipboard.
+  - Alternatively, with no text selected, you can use Win+C to modify your current clipboard contents.
 - Paste the shortened and wrapped code wherever you want.
 
 ## Features and Limitations
