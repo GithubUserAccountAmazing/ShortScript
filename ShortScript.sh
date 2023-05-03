@@ -3,11 +3,11 @@
 # Author: github.com/richkmls
 # Date: 5/3/2023
 # Usage:
-# 	0. install xclip using: sudo apt-get install xclip
-# 	1. Add the path to this script as a custom key binding: Super+C
-# 	2. Select a JavaScript/Python code that you want to shorten.
-# 	3. Press Super+C to copy a markdown codeblock with the shortened code.
-# 	4. Paste the codeblock wherever you want.
+#	0. In ubuntu, add the path to this script as a custom key binding
+# 	1. Select a JavaScript/Python code that you want to shorten.
+# 	2. Press Win+C to copy a markdown codeblock with the shortened code.
+# 	3. Paste the codeblock wherever you want.
+
 
 xclip -selection primary -o | xclip -selection clipboard -i
 
@@ -28,12 +28,13 @@ while read -r line; do
 		continue
 	fi
 
-	# Split the line by // or # and keep everything before it (including spaces)
-	linePart=$(echo "$line" | cut -d / -f 1)
+	# Split the line by // and keep everything before it (including spaces)
+	# Use awk to match the pattern and print the first field
+	linePart=$(echo "$line" | awk -F "//" '{print $1}')
 
 	# Append the line part to the new text and trim any white space at both ends
 	newText+=$(echo "$linePart" | sed 's/^[ \t]*//;s/[ \t]*$//')
-  newText+=$'\n'
+	newText+=$'\n'
 
 done <<< "$clipboardText"
 
