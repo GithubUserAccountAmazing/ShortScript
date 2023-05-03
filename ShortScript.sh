@@ -28,9 +28,9 @@ while read -r line; do
 		continue
 	fi
 
-	# Split the line by // and keep everything before it (including spaces)
+	# Split the line by // and # and keep everything before it
 	# Use awk to match the pattern and print the first field
-	linePart=$(echo "$line" | awk -F "//" '{print $1}')
+	linePart=$(echo "$line" | awk -F "//" '{print $1}' | awk -F "#" '{print $1}')
 
 	# Append the line part to the new text and trim any white space at both ends
 	newText+=$(echo "$linePart" | sed 's/^[ \t]*//;s/[ \t]*$//')
