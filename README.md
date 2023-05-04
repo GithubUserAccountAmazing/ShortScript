@@ -28,7 +28,7 @@ Linux:
 - Add the path to ShortScript.sh as a custom key binding
 
 
-# How to Use
+## How to Use
 
 - Select a JavaScript/Python code with your mouse or keyboard and press Win+C to copy a shortened and wrapped version to your clipboard.
   - Alternatively, with no text selected, you can use Win+C to modify your current clipboard contents.
