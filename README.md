@@ -17,13 +17,23 @@ For example, this is how ShortScript transforms a basic JavaScript code that use
 
 AI apps need prompts to generate output. Prompts have a character limit based on the app and the language model. For example, ChatGPT can process up to 500 words or 4,000 characters. If you go over the limit, the app may stop working or show an error. ShortScript can help you optimize your code for AI prompting by making it shorter and clearer. This can prevent character limit issues and improve AI output.
 
-## How to Use
+## How to Set Up
 
+Windows:
 - Install AutoHotkey on your system.
 - Run the script by double-clicking or right-clicking on the .ahk file.
-- Select a JavaScript code with your mouse or keyboard and press Win+C to copy a shortened and wrapped version to your clipboard.
+
+Linux:
+- Install dependency xclip with "sudo apt-get install xclip"
+- Add the path to ShortScript.sh as a custom key binding
+
+
+# How to Use
+
+- Select a JavaScript/Python code with your mouse or keyboard and press Win+C to copy a shortened and wrapped version to your clipboard.
   - Alternatively, with no text selected, you can use Win+C to modify your current clipboard contents.
 - Paste the shortened and wrapped code wherever you want.
+
 
 ## Features and Limitations
 
