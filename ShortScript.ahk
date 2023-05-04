@@ -1,9 +1,9 @@
 ; ShortScript
 ; A tool to optimize code for AI prompting.
 ; Author: github.com/richkmls
-; Date: 4/28/2023
+; Date: 4/28/2023, updated 5/4/2023
 ; Usage: 
-;	1. Select a JavaScript code that you want to shorten.
+;	1. Select a JavaScript/Python code that you want to shorten.
 ;	2. Press Win+C to copy a markdown codeblock with the shortened code.
 ;	3. Paste the codeblock wherever you want.
 
@@ -27,21 +27,38 @@ Loop, Parse, clipboardText, `n, `r
         	continue
 
 	; If the line is a comment skip it
-    	If (SubStr(currentLine, 1, 1) = "#" or SubStr(currentLine, 1, 1) = "//")
+    	If (SubStr(currentLine, 1, 1) = "#" or SubStr(currentLine, 1, 2) = "//")
         	continue
 
-	; Split the line by // or #
-    	StringSplit, lineParts, currentLine, //|#
+	; Find the position of "//" in the current line
+	pos := InStr(currentLine, "//")
 
-	; Append the first part of the split to a new variable and trim any white space
-	newText .= Trim(lineParts1) "`n"
+	; If "//" is found in the current line and it's not part of a URL
+	If (pos > 0 and SubStr(currentLine, pos - 1, 1) != ":")
+	{
+		; Get the part of the current line before "//"
+		currentLine := SubStr(currentLine, 1, pos - 1)
+	}
+
+	; Find the position of "#" in the current line
+	pos := InStr(currentLine, "#")
+
+	; If "#" is found in the current line
+	If (pos > 0)
+	{
+		; Get the part of the current line before "#"
+		currentLine := SubStr(currentLine, 1, pos - 1)
+	}
+
+	; Append the current line to a new variable and trim any white space
+	newText .= Trim(currentLine) "`n"
 }
 
 ; Add "```" and a newline at the beginning of the string
-newText := "``````" . newText
+newText := "``````" . "`n" . newText
 
 ; Add a "```" at the ends of the string
-newText := newText . "``````"
+newText := newText . "``````" . "`n"
 
 ; Replace the clipboard with the new variable
 Clipboard := newText
@@ -50,13 +67,3 @@ Clipboard := newText
 newText =
 
 return
-
-
-
-
-
-
-
-
-
-
