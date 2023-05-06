@@ -37,8 +37,10 @@ Linux:
 
 ## Features and Limitations
 
-- The script currently works best for JavaScript, Python, Bash (languages that use "//" and "#" as comment symbols).
-- As the project progresses, subtle differences in functionality may emerge between the AHK and Bash versions at any given moment in time.
+- The script is optimized for JavaScript, Python, and Bash, which use "//" and "#" as comment symbols.
+- Subtle differences in functionality may emerge between the AHK and Bash versions as the project progresses.
+
+If you encounter any issues or have suggestions for enhancements, please feel free to submit an issue or pull request.
 
 ## Disclaimer
 
