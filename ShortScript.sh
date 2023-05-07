@@ -8,6 +8,7 @@
 # 	2. Press Win+C to copy a markdown codeblock with the shortened code.
 # 	3. Paste the codeblock wherever you want.
 
+# Copy the primary selection to the clipboard
 xclip -selection primary -o | xclip -selection clipboard -i
 
 # Read the clipboard content into a variable
@@ -22,36 +23,29 @@ inComment=false
 # Loop through each line of the clipboard text
 while read -r line; do
 
-	# Remove any leading or trailing whitespace and tabs from the line
-	line=$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
+    # Remove any leading or trailing whitespace and tabs from the line
+    line=$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
 
-	# If the line is empty or a comment, skip it
-	if [[ -z "$line" || "$line" =~ ^(#|//) ]]; then
-		continue
-	fi
-
-    # Check if we are in a multi-line comment
-    if [[ $inComment == true ]]; then
-        # If we are in a multi-line comment, check if this line ends it
-        if [[ $line =~ .*\"\"\".* ]]; then
-            inComment=false
-        fi
-
-        # Skip this line since it is part of a multi-line comment
+    # If the line is empty or a comment, skip it
+    if [[ -z "$line" || "$line" =~ ^(#|//) ]]; then
         continue
-    else
-        # If we are not in a multi-line comment, check if this line starts one
-        if [[ $line =~ .*\"\"\".* ]]; then
-            inComment=true
+    fi
 
-            # Skip this line since it is part of a multi-line comment
+    # Check if the line contains triple quotes indicating a multi-line comment
+    if [[ $line =~ .*\"\"\".* ]]; then
+        # Check if there is another set of triple quotes on the same line
+        if [[ $line =~ .*\"\"\".*\"\"\".* ]]; then
+            # This is a single line comment using triple quotes syntax
+            continue
+        else
+            # Set inComment to true and skip this line since it is part of a multi-line comment
+            inComment=true 
             continue
         fi
     fi
 
-	# Split the line by // and # and keep everything before it
-	# Use awk to match the pattern and print the first field
-	# ignore instances of "//" that are a part of a URL
+	# Split the line by // and # and keep everything before it using awk to match the 
+	# pattern and print the first field while ignoring instances of "//" that are part of a URL
 	linePart=$(echo "$line" | awk '{sub(/[^:]\/\//,""); sub(/#.*/,"")}1')
 
     # Check if line is within quotes and if so, do not split it
@@ -59,7 +53,7 @@ while read -r line; do
         linePart=$line
     fi
 
-	# Append the line part to the new text and trim any white space at both ends
+	# Append the line part to the new text and trim any white space at both ends using sed command 
 	newText+=$(echo "$linePart" | sed 's/^[ \t]*//;s/[ \t]*$//')
 	newText+=$'\n'
 
@@ -71,5 +65,5 @@ newText="\`\`\`"$'\n'"$newText"
 # Add a "\`\`\`" at the end of the string
 newText+=$"\`\`\`"
 
-# Replace the clipboard with the new text
+# Replace the clipboard with the new text using xclip command 
 echo "$newText" | xclip -selection clipboard
