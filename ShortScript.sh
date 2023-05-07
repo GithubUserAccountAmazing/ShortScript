@@ -1,7 +1,7 @@
 #!/bin/bash
 # A tool to optimize code for AI prompting.
 # Author: github.com/richkmls
-# Last Updated: 5/6/2023
+# Date: 5/7/2023
 # Usage:
 #	0. In ubuntu, add the path to this script as a custom key binding
 # 	1. Select a JavaScript/Python code that you want to shorten.
@@ -44,18 +44,14 @@ while read -r line; do
         fi
     fi
 
-	# Split the line by // and # and keep everything before it using awk to match the 
-	# pattern and print the first field while ignoring instances of "//" that are part of a URL
-	linePart=$(echo "$line" | awk '{sub(/[^:]\/\//,""); sub(/#.*/,"")}1')
+    # Split the line by // and # and keep everything before it using awk to match the pattern 
+    # and print the first field while ignoring instances of "//" that are part of a URL 
+    # and ignoring instances of "#" or "//" that are between single or double quotation marks
+    linePart=$(echo "$line" | awk '{sub(/[^:]\/\//,""); sub(/([^"'"'"'])#([^"'"'"'])/,"\\1\\2")}1')
 
-    # Check if line is within quotes and if so, do not split it
-    if [[ $line =~ ^\".*\"$ || $line =~ ^\'.*\'$ ]]; then
-        linePart=$line
-    fi
-
-	# Append the line part to the new text and trim any white space at both ends using sed command 
-	newText+=$(echo "$linePart" | sed 's/^[ \t]*//;s/[ \t]*$//')
-	newText+=$'\n'
+    # Append the line part to the new text and trim any white space at both ends using sed command 
+    newText+=$(echo "$linePart" | sed 's/^[ \t]*//;s/[ \t]*$//')
+    newText+=$'\n'
 
 done <<< "$clipboardText"
 
