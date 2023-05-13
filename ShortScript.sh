@@ -52,12 +52,8 @@ while read -r line; do
         fi
     fi
 
-    # This command uses sed to perform a regular expression search and replace on the contents of the variable $line.
-    # The regular expression searches for two patterns separated by an OR (|) operator.
-    # The first pattern searches for a string that starts and ends with parentheses and contains a '#' symbol between two sets of characters that are not single or double quotes.
-    # The second pattern searches for a string that starts and ends with parentheses and contains '//' between two sets of characters that are not single or double quotes.
-    # Both patterns are then replaced with an empty string, effectively removing them from the contents of $line.
-    linePart=$(echo "$line" | sed -E 's/\(\(\([^"'"'"']\)#\([^"'"'"']\)\)\)|\(\(\([^"'"'"']\)\/\/\([^"'"'"']\)\)\)//g')
+    # Use sed to match and remove any characters after # or // that are not within single or double quotation marks
+    linePart=$(echo "$line" | sed -E 's/("[^"]*")|('\''[^'\'']*'\'')|(#.*)|(\/\/.*)/\1\2/g')
 
     # Append the line part to the new text and trim any white space at both ends using sed command 
     newText+=$(echo "$linePart" | sed 's/^[ \t]*//;s/[ \t]*$//')
