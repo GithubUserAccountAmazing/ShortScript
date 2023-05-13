@@ -37,7 +37,8 @@ Linux:
 
 ## Features and Limitations
 
-- The script is optimized for JavaScript, Python, and Bash, which use "//" and "#" as comment symbols.
+- There seems to be an issue with using the bash script to extract text from CodeMirror editors.
+- The script is optimized for JavaScript, Python which use "//" and "#" as comment symbols.
 - Subtle differences in functionality may emerge between the AHK and Bash versions as the project progresses.
 
 If you encounter any issues or have suggestions for enhancements, please feel free to submit an issue or pull request.
