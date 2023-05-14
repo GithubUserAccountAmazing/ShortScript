@@ -19,11 +19,11 @@ AI apps need prompts to generate output. Prompts have a character limit based on
 
 ## How to Set Up
 
-Windows:
+Windows -> AHK:
 - Install AutoHotkey on your system.
 - Run the script by double-clicking or right-clicking on the .ahk file.
 
-Linux:
+Linux -> Bash:
 - Install dependency xclip with "sudo apt-get install xclip"
 - Add the path to ShortScript.sh as a custom key binding
 
