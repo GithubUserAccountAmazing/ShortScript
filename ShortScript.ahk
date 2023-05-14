@@ -1,66 +1,131 @@
 ; ShortScript
 ; A tool to optimize code for AI prompting.
 ; Author: github.com/richkmls
-; Date: 4/28/2023, updated 5/4/2023
+; Date: 5/14/2023
 ; Usage: 
 ;	1. Select a JavaScript/Python code that you want to shorten.
 ;	2. Press Win+C to copy a markdown codeblock with the shortened code.
 ;	3. Paste the codeblock wherever you want.
+; Known Issue: Does not remove docstrings from python code
 
 #C::
 
-; Add the selected text to the clipboard
+; Copies the selected text to the clipboard
 Send ^c
+
+; Waits for the clipboard to contain data
 ClipWait
 
-; Assign clipboard content to a variable
+; Stores the clipboard text in a variable
 clipboardText := Clipboard
+; Initializes a variable to store the new text
+newText := ""
 
-; Iterate over each line of the variable
-Loop, Parse, clipboardText, `n, `r
-{
-	; Remove any leading or trailing whitespace and tabs from the line
-	currentLine := Trim(A_LoopField, " `t")
+; Initializes a variable to track if the script is currently inside a comment block
+inComment := false
 
-	; If the line is empty skip it.
-	If (currentLine = "")
-        	continue
+; Splits the clipboard text into an array of lines
+lines := StrSplit(clipboardText, "`n", "`r")
 
-	; If the line is a comment skip it
-    	If (SubStr(currentLine, 1, 1) = "#" or SubStr(currentLine, 1, 2) = "//")
-        	continue
+; Loops through each line of text
+for index, line in lines {
 
-	; Find the position of "//" in the current line
-	pos := InStr(currentLine, "//")
-
-	; If "//" is found in the current line and it's not part of a URL
-	If (pos > 0 and SubStr(currentLine, pos - 1, 1) != ":")
-	{
-		; Get the part of the current line before "//"
-		currentLine := SubStr(currentLine, 1, pos - 1)
-	}
-
-	; Find the position of "#" in the current line
-	pos := InStr(currentLine, "#")
-
-	; If "#" is found in the current line
-	If (pos > 0)
-	{
-		; Get the part of the current line before "#"
-		currentLine := SubStr(currentLine, 1, pos - 1)
-	}
-
-	; Append the current line to a new variable and trim any white space
-	newText .= Trim(currentLine) "`n"
+    ; Trims any leading or trailing whitespace from the line
+    line := Trim(line)
+    
+    ; Skips empty lines, lines starting with "#" and lines starting with "//"
+    if (line = "" || SubStr(line, 1, 1) = "#" || SubStr(line, 1, 2) = "//") {
+        continue
+    }	
+    ; If currently inside a comment block
+    if (inComment) {
+    
+        ; Checks if the line contains the end of a comment block "*/"
+        if (InStr(line, "*/")) { 
+	
+            ; Sets inComment to false to indicate that the script is no longer inside a comment block
+            inComment := false 
+        } 
+        ; Skips to the next iteration of the loop
+        continue 
+    } 
+    ; Checks if the line contains the start of a comment block "/*"
+    if (InStr(line, "/*")) { 
+    
+        ; Checks if the line also contains the end of a comment block "*/"
+        if (InStr(line, "/*") && InStr(line, "*/", InStr(line, "/*") + 2)) { 
+	
+            ; Skips to the next iteration of the loop
+            continue 
+	    
+        } else { 
+	
+            ; Sets inComment to true to indicate that the script is now inside a comment block
+            inComment := true 
+	    
+            ; Skips to the next iteration of the loop
+            continue 
+        } 
+    }
+    ; Checks if the line contains an inline comment "#"
+    pos := InStr(line, "#")
+    
+    if (pos) {
+    
+        ; Initializes a variable to track if the script is currently inside a string
+        inString := false
+	
+        ; Loops through each character in the line
+        for i, char in StrSplit(line) {
+	
+            ; Checks if the character is a double quote that is not escaped by another double quote
+            if (char = """" && (i = 1 || SubStr(line, i - 1, 1) != "\")) {
+	    
+                ; Toggles the inString variable to indicate if the script is currently inside or outside a string
+                inString := !inString
+            }
+            ; If not currently inside a string and the character is "#"
+            if (!inString && char = "#") {
+	    
+                ; Removes everything after "#" from the line
+                line := SubStr(line, 1, i - 1)
+                break
+            }
+        }
+    }
+    
+    ; Checks if the line contains an inline comment "//"
+    pos := InStr(line, "//")
+    if (pos) {
+    
+        ; Initializes a variable to track if the script is currently inside a string
+        inString := false
+	
+        ; Loops through each character in the line
+        for i, char in StrSplit(line) {
+	
+            ; Checks if the character is a double quote that is not escaped by another double quote
+            if (char = """" && (i = 1 || SubStr(line, i - 1, 1) != "\")) {
+	    
+                ; Toggles the inString variable to indicate if the script is currently inside 
+		; or outside a string
+                inString := !inString
+		
+            }
+            ; If not currently inside a string and there are two consecutive forward slashes "//"
+            if (!inString && SubStr(line,i ,2) = "//") {
+	    
+                ; Removes everything after "//" from the line
+                line := SubStr(line, 1, i - 1)
+                break
+            }
+        }
+    }
+    ; Appends the modified line to newText followed by a newline character "`n"
+    newText .= Trim(line) . "`n"
 }
-
-; Add "```" and a newline at the beginning of the string
-newText := "``````" . "`n" . newText
-
-; Add a "```" at the ends of the string
-newText := newText . "``````" . "`n"
-
-; Replace the clipboard with the new variable
+; Wraps newText with triple backticks and assigns it to Clipboard variable.
+newText := "```````" . "`n" . newText . "```````"  . "`n"
 Clipboard := newText
 
 ; clear newText
