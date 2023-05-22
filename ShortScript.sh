@@ -20,10 +20,12 @@ newText=""
 # Initialize a variable to keep track of whether we are in a multi-line comment
 inComment=false
 
+link=false
+
 while read -r line; do
 
     # Remove any leading or trailing whitespace and tabs from the line
-    line=$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
+    line=$(printf '%s' "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
 
     # If the line is empty or a comment, skip it
     if [[ -z "$line" || "$line" =~ ^(#|//) ]]; then
@@ -52,11 +54,17 @@ while read -r line; do
         fi
     fi
 
+    # Use sed to convert :// into :/ to save URLs from next command
+    line=$(printf '%s' "$line" | sed 's#://#:/#g')
+
     # Use sed to match and remove any characters after # or // that are not within single or double quotation marks
-    linePart=$(echo "$line" | sed -E 's/("[^"]*")|('\''[^'\'']*'\'')|(#.*)|(\/\/.*)/\1\2/g')
+    linePart=$(printf '%s' "$line" | sed -E 's/("[^"]*")|('\''[^'\'']*'\'')|(#.*)|(\/\/.*)/\1\2/g')
+    
+    # convert remaining URLs back into ://
+    linePart=$(printf '%s' "$linePart" | sed -E 's#(https?:/)#\1/#g')
 
     # Append the line part to the new text and trim any white space at both ends using sed command 
-    newText+=$(echo "$linePart" | sed 's/^[ \t]*//;s/[ \t]*$//')
+    newText+=$(printf '%s' "$linePart" | sed 's/^[ \t]*//;s/[ \t]*$//')
     newText+=$'\n'
 
 done <<< "$clipboardText"
@@ -68,4 +76,4 @@ newText="\`\`\`"$'\n'"$newText"
 newText+=$"\`\`\`"
 
 # Replace the clipboard with the new text using xclip command 
-echo "$newText" | xclip -selection clipboard
+printf '%s' "$newText" | xclip -selection clipboard
