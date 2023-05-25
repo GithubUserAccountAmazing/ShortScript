@@ -138,5 +138,3 @@ return
 Send `````` ; sends 3 backticks (each backtick is escaped with a backtick)
 Send `n ; sends a newline (backtick + n)
 return
-
-return
