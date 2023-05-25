@@ -1,11 +1,12 @@
 ; ShortScript
 ; A tool to optimize code for AI prompting.
 ; Author: github.com/richkmls
-; Date: 5/14/2023
+; Date: 5/25/2023
 ; Usage: 
 ;	1. Select a JavaScript/Python code that you want to shorten.
 ;	2. Press Win+C to copy a markdown codeblock with the shortened code.
 ;	3. Paste the codeblock wherever you want.
+;	 - Win+` will send 3 backticks followed by a newline.
 ; Known Issue: Does not remove docstrings from python code
 
 #C::
@@ -130,5 +131,12 @@ Clipboard := newText
 
 ; clear newText
 newText =
+
+return
+
+#`:: ; key command Windows key + backtick
+Send `````` ; sends 3 backticks (each backtick is escaped with a backtick)
+Send `n ; sends a newline (backtick + n)
+return
 
 return
